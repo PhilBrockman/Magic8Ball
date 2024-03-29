@@ -1,0 +1,34 @@
+name: Ask Magic 8 Ball on PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      pull_request_number:
+        description: 'Pull Request Number'
+        required: true
+        type: integer
+
+jobs:
+  magic-8-ball:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Automated PR Interaction
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const prNumber = ${{ github.event.inputs.pull_request_number }};
+            console.log(`Processing PR #${prNumber}.`);
+
+            // Example logic to post a comment. Replace or expand this with your own logic.
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: "Hello, World! 🌍 This is a comment from the Magic 8 Ball workflow.",
+            });
+
+            // Here, incorporate the logic you've defined for actions like closing, merging, or requesting reviews,
+            // using the structure and ideas from your initial script.
